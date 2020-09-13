@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>단아의 실험실~!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+    <div class="keys">
+        <div data-key="65" class="key">
+            <button onclick="playbutton(65)">
+                <kbd>A</kbd>
+                <span class="sound">물</span>
+            </button>
+        </div>
+
+        <div data-key="83" class="key">
+            <button onclick="playbutton(83)">
+                <kbd>S</kbd>
+                <span class="sound">소금물</span>
+            </button>
+        </div>
+        <div data-key="68" class="key">
+            <button onclick="playbutton(68)">
+                <kbd>D</kbd>
+                <span class="sound">식용유</span>
+            </button>
+        </div>
+
+    </div>
+
+    <audio data-key="65" src="data/물2.m4a"></audio>
+    <audio data-key="68" src="data/물.m4a"></audio>
+    <audio data-key="83" src="data/소금물.m4a"></audio>
+
+    <script>
+        function removeTransition(e) {
+            if (e.propertyName !== 'transform') return;
+            e.target.classList.remove('playing');
+        }
+
+        function playSound(e) {
+            const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+            const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+            if (!audio) return;
+
+            key.classList.add('playing');
+            audio.currentTime = 0;
+            audio.play();
+        }
+
+        function playbutton(k) {
+            const audio = document.querySelector(`audio[data-key="${k}"]`);
+            const key = document.querySelector(`div[data-key="${k}"]`);
+            if (!audio) return;
+
+            key.classList.add('playing');
+            audio.currentTime = 0;
+            audio.play();
+        }
+
+        const keys = Array.from(document.querySelectorAll('.key'));
+        keys.forEach(button => button.addEventListener('transitionend', removeTransition));
+        window.addEventListener('keydown', playSound);
+    </script>
+
+
+</body>
+
+</html>
